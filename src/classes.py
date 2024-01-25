@@ -294,10 +294,44 @@ class MT5Trader(Trader):
 
 
 class CrossOverStrategy(TradingStrategy):
+    """
+    CrossOverStrategy class implements a simple crossover trading strategy based on moving averages.
+
+    Args:
+        - trading_data (TradingData): The trading data source for strategy analysis.
+
+    Attributes:
+        - data (TradingData): The trading data source for strategy analysis.
+
+    Methods:
+        - signal(): Generates a trading signal based on the crossover strategy.
+
+    Example usage:
+    ```python
+    # Create an instance of CrossOverStrategy with trading data
+    strategy = CrossOverStrategy(trading_data)
+
+    # Get the trading signal
+    symbol, signal = strategy.signal()
+    ```
+    """
+
     def __init__(self, trading_data: TradingData) -> None:
+        """
+        Initializes the CrossOverStrategy instance.
+
+        Args:
+            - trading_data (TradingData): The trading data source for strategy analysis.
+        """
         self.data = trading_data
 
     def signal(self):
+        """
+        Generates a trading signal based on the crossover strategy.
+
+        Returns:
+            Tuple[str, str]: A tuple containing the trading symbol and the trading signal ('buy', 'sell', or 'hold').
+        """
         df = self.data.get_data()
         # Calculate moving averages
         df["MA20"] = df["close"].rolling(window=20).mean()

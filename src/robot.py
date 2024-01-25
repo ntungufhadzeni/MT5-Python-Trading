@@ -3,7 +3,43 @@ import MetaTrader5 as mt5
 
 
 class CrossOverRobot:
+    """
+    CrossOverRobot class represents a trading robot implementing a crossover strategy.
+
+    Args:
+        - volume (float): The trading volume for each position.
+        - trader (Trader): The trader instance responsible for executing trades.
+        - strategy (TradingStrategy): The trading strategy instance guiding the robot's decisions.
+
+    Attributes:
+        - volume (float): The trading volume for each position.
+        - trader (Trader): The trader instance responsible for executing trades.
+        - strategy (TradingStrategy): The trading strategy instance guiding the robot's decisions.
+        - magic_number (int): A unique identifier for trades opened by the robot.
+        - name (str): The name of the robot.
+
+    Methods:
+        - trade(): Executes the trading logic based on the strategy's signals.
+
+    Example usage:
+    ```python
+    # Create an instance of CrossOverRobot with a trader and a trading strategy
+    robot = CrossOverRobot(volume=0.1, trader=my_trader_instance, strategy=my_strategy_instance)
+
+    # Start the trading robot
+    robot.trade()
+    ```
+    """
+
     def __init__(self, volume: float, trader: Trader, strategy: TradingStrategy):
+        """
+        Initializes the CrossOverRobot instance.
+
+        Args:
+            - volume (float): The trading volume for each position.
+            - trader (Trader): The trader instance responsible for executing trades.
+            - strategy (TradingStrategy): The trading strategy instance guiding the robot's decisions.
+        """
         self.volume = volume
         self.trader = trader
         self.strategy = strategy
@@ -12,6 +48,11 @@ class CrossOverRobot:
         print("Starting CrossOver Robot")
 
     def trade(self):
+        """
+        Executes the trading logic based on the strategy's signals.
+
+        Prints relevant information about each trading action.
+        """
         print("Searching for trading signal")
         symbol, signal = self.strategy.signal()
 
@@ -52,3 +93,4 @@ class CrossOverRobot:
 
         print("Waiting for the next trading signal")
         print("\n")
+

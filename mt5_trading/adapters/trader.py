@@ -25,19 +25,3 @@ class Trader(ABC):
     @abstractmethod
     def calculate_position_size(self, *args, **kwargs):
         raise NotImplemented
-
-
-class TradingStrategy(ABC):
-    @abstractmethod
-    def signal(self):
-        raise NotImplemented
-
-
-class TradingData(ABC):
-    @abstractmethod
-    def get_data(self):
-        raise NotImplemented
-
-    @abstractmethod
-    def get_symbol(self):
-        raise NotImplemented

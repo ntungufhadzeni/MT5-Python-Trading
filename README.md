@@ -28,6 +28,7 @@ This project aims to simplify algorithmic trading on MetaTrader 5 by leveraging 
 - Python 3.x installed.
 - Required Python packages (specified in `requirements.txt`).
 
+
 ## Installation
 
 1. **Clone the repository:**
@@ -35,13 +36,21 @@ This project aims to simplify algorithmic trading on MetaTrader 5 by leveraging 
    ```bash
    git clone https://github.com/ntungufhadzeni/MT5-Python-Trading.git
    cd MT5-Python-Trading
-   
+   ```
+
 2. **Create virtual environment and Install the required Python packages:**
     
    ```bash
-   python -m venv .venv
-   .venv/Scripts/Activate.ps1
-   pip install -r requirements.txt
+   # Install uv if you haven't already
+   pip install uv
+   
+   # Create and activate virtual environment with Python 3.12
+   uv venv .venv --python=3.12
+   .venv\Scripts\activate
+   
+   # Install dependencies
+   uv pip install -r requirements.txt
+   ```
 
 ## Getting Started
 1. Open your MetaTrader 5 terminal and ensure it is connected to your trading account.

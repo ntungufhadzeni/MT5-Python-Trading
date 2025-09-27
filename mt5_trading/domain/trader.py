@@ -1,6 +1,5 @@
 import MetaTrader5 as mt5
 import pandas as pd
-from loguru import logger
 
 from mt5_trading.adapters import Trader
 
@@ -124,8 +123,7 @@ class MT5Trader(Trader):
                     (df_opened_positions["symbol"] == symbol) & (df_opened_positions["type"] == position_type)
                 ]
             total_opened_positions = len(df)
-        except Exception as e:
-            logger.error(f"Error while getting opened positions: {e}")
+        except Exception:
             total_opened_positions = 0
             df = pd.DataFrame()
         return total_opened_positions, df
@@ -134,8 +132,7 @@ class MT5Trader(Trader):
         try:
             opened_positions = mt5.positions_get()
             df_opened_positions = pd.DataFrame(list(opened_positions), columns=opened_positions[0]._asdict().keys())
-        except Exception as e:
-            logger.error(f"Error while getting all positions: {e}")
+        except Exception:
             df_opened_positions = pd.DataFrame()
         return df_opened_positions
 

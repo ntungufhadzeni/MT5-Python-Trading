@@ -19,7 +19,7 @@ password = os.getenv("PASSWORD")
 server = os.getenv("SERVER")
 symbol = "EURUSD"
 lot_size = 0.1
-
+print("password", password)
 eurusd_h1_data = MT5Data(login, server, password, terminal_path, symbol, mt5.TIMEFRAME_H1)
 cross_over_strategy = CrossOverStrategy(eurusd_h1_data)
 mt5_trader = MT5Trader()

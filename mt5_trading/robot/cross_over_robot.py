@@ -52,8 +52,6 @@ class CrossOverRobot:
     def trade(self):
         """
         Executes the trading logic based on the strategy's signals.
-
-        Prints relevant information about each trading action.
         """
         logger.info("Searching for trading signal")
         symbol, signal = self.strategy.signal()
@@ -66,32 +64,40 @@ class CrossOverRobot:
                     symbol,
                     self.volume,
                     mt5.ORDER_TYPE_BUY,
-                    "CrossOver buy position", self.magic_number
+                    "CrossOver buy position",
+                    self.magic_number
                 )
+                if result is None:
+                    return  # Exit if AutoTrading is disabled
                 logger.info(
                     f"Buy position opened: Order #{result.order}, Volume: {result.volume}, Price: {result.price}")
+
             total, _ = self.trader.get_opened_positions(symbol, mt5.ORDER_TYPE_SELL)
             if total > 0:
                 logger.info(f"Closing existing sell positions for {symbol}")
                 self.trader.close_positions(self.name, symbol, mt5.ORDER_TYPE_BUY)
+
         elif signal == signal.SELL:
-            total_sell, _ = self.trader.get_opened_positions(
-                symbol, mt5.ORDER_TYPE_SELL
-            )
+            total_sell, _ = self.trader.get_opened_positions(symbol, mt5.ORDER_TYPE_SELL)
             if total_sell == 0:
                 logger.info(f"Selling signal detected for {symbol}")
                 result = self.trader.open_position(
                     symbol,
                     self.volume,
                     mt5.ORDER_TYPE_SELL,
-                    "CrossOver sell position", self.magic_number
+                    "CrossOver sell position",
+                    self.magic_number
                 )
+                if result is None:
+                    return  # Exit if AutoTrading is disabled
                 logger.info(
                     f"Sell position opened: Order #{result.order}, Volume: {result.volume}, Price: {result.price}")
+
             total, _ = self.trader.get_opened_positions(symbol, mt5.ORDER_TYPE_BUY)
             if total > 0:
                 logger.info(f"Closing existing buy positions for {symbol}")
                 self.trader.close_positions(self.name, symbol, mt5.ORDER_TYPE_BUY)
+
         elif signal == signal.NONE:
             logger.info("No trading signal found.")
 

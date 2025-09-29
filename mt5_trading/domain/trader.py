@@ -1,64 +1,38 @@
 import MetaTrader5 as mt5
 import pandas as pd
+from loguru import logger
 
 from mt5_trading.adapters import Trader
 
 
 class MT5Trader(Trader):
     def open_position(self, symbol, volume, position_type, comment, magic_number, sl=None, tp=None):
-        if not sl and not tp:
-            order = {
-                "action": mt5.TRADE_ACTION_DEAL,
-                "symbol": symbol,
-                "volume": volume,
-                "type": position_type,
-                "magic": magic_number,
-                "comment": comment,
-                "type_time": mt5.ORDER_TIME_GTC,
-                "type_filling": mt5.ORDER_FILLING_FOK,
-            }
-            return mt5.order_send(order)
-        elif not sl and tp:
-            order = {
-                "action": mt5.TRADE_ACTION_DEAL,
-                "symbol": symbol,
-                "tp": tp,
-                "volume": volume,
-                "type": position_type,
-                "comment": comment,
-                "magic": magic_number,
-                "type_time": mt5.ORDER_TIME_GTC,
-                "type_filling": mt5.ORDER_FILLING_FOK,
-            }
-            return mt5.order_send(order)
-        elif sl and not tp:
-            order = {
-                "action": mt5.TRADE_ACTION_DEAL,
-                "symbol": symbol,
-                "sl": sl,
-                "volume": volume,
-                "type": position_type,
-                "comment": comment,
-                "magic": magic_number,
-                "type_time": mt5.ORDER_TIME_GTC,
-                "type_filling": mt5.ORDER_FILLING_FOK,
-            }
-            return mt5.order_send(order)
-        elif sl and tp:
-            order = {
-                "action": mt5.TRADE_ACTION_DEAL,
-                "symbol": symbol,
-                "sl": sl,
-                "tp": tp,
-                "volume": volume,
-                "type": position_type,
-                "magic": magic_number,
-                "comment": comment,
-                "type_time": mt5.ORDER_TIME_GTC,
-                "type_filling": mt5.ORDER_FILLING_FOK,
-            }
-            return mt5.order_send(order)
-        return None
+        # Base order dictionary with common parameters
+        order = {
+            "action": mt5.TRADE_ACTION_DEAL,
+            "symbol": symbol,
+            "volume": volume,
+            "type": position_type,
+            "magic": magic_number,
+            "comment": comment,
+            "type_time": mt5.ORDER_TIME_GTC,
+            "type_filling": mt5.ORDER_FILLING_FOK,
+        }
+
+        # Add optional parameters if they are provided
+        if sl is not None:
+            order["sl"] = sl
+        if tp is not None:
+            order["tp"] = tp
+
+        result = mt5.order_send(order)
+
+        if result and result.retcode == 10027:  # AutoTrading disabled error code
+            logger.error("AutoTrading is disabled in MetaTrader 5")
+            logger.error("Please enable AutoTrading: Tools -> Options -> Expert Advisors -> Allow Automated Trading")
+            return None
+
+        return result
 
     def close_positions(self, robot_name: str, symbol=None, position_type=None):
         df_open_positions = self.get_all_positions()

@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "backtesting==0.3.3",
+    "backtrader>=1.9.78.123",
     "bokeh==3.8.0",
     "build==1.3.0",
     "colorama==0.4.6",
@@ -15,6 +16,7 @@ dependencies = [
     "llvmlite==0.44.0",
     "loguru==0.7.3",
     "markupsafe==3.0.2",
+    "matplotlib>=3.10.6",
     "metatrader5==5.0.5260",
     "narwhals==2.5.0",
     "numba==0.61.2",
@@ -37,4 +39,5 @@ dependencies = [
     "tzdata==2025.2",
     "win32-setctime==1.2.0",
     "xyzservices==2025.4.0",
+    "yfinance>=0.2.66",
 ]

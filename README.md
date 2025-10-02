@@ -39,14 +39,17 @@ This project aims to simplify algorithmic trading on MetaTrader 5 by leveraging 
 2. **Create virtual environment and install dependencies:**
    ```bash
    # Install uv if you haven't already
-   pip install uv
+   curl -LsSf https://astral.sh/uv/install.sh | sh
    
-   # Create and activate virtual environment with Python 3.12
-   uv venv .venv --python=3.12
-   .venv\Scripts\activate
+   # After installation, add this to your ~/.bashrc (or ~/.zshrc if you use zsh):
+   export PATH="$HOME/.cargo/bin:$PATH"
    
-   # Install dependencies from pyproject.toml using uv.lock
-   uv pip sync
+   # Then reload
+   source ~/.bashrc
+   
+   # Create and activate virtual environment with Python 3.12 and Install dependencies
+   uv sync
+   source .venv/bin/activate
    ```
 
 ## Getting Started
